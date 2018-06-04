@@ -1,0 +1,22 @@
+---
+# phpをインストール
+- name: install php7.2
+  command: amazon-linux-extras install php7.2
+
+# php72のインストール
+- name: install php72
+  yum: name={{ item }}
+  with_items:
+   - php-xml
+   - php-mbstring
+   - php-pgsql
+   - php-mysqlnd
+   - php-intl
+- name: config PHP
+  copy: src=php.conf dest=/etc/httpd/conf.d/php.conf
+- name: config PHP
+  copy: src=php.ini dest=/etc/php.ini
+- name: start php
+  service: name=php-fpm state=restarted
+  notify:
+    - restart httpd

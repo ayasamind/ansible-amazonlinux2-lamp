@@ -1,0 +1,58 @@
+---
+# apacheをインストール
+- name: install httpd
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - httpd
+    - httpd-devel
+    - mod_ssl
+# docrootのディレクトリを作成
+- name: check docroot
+  file:
+    path: "{{ centos6_apache_docroot }}"
+    state: directory
+    owner: "{{ centos6_apache_docroot_user }}"
+    group: "{{ centos6_apache_docroot_group }}"
+- name: copy httpd.conf
+  copy:
+    src: httpd.conf
+    dest: /etc/httpd/conf/httpd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+   - restart httpd
+- name: copy /etc/httpd/conf.d/notrace.conf
+  copy:
+    src: notrace.conf
+    dest: /etc/httpd/conf.d/notrace.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart httpd
+# VirtualHostの設定
+- name: copy /etc/httpd/conf.d/virtualhosts.conf
+  template:
+    src: virtualhosts.conf.j2
+    dest: /etc/httpd/conf.d/virtualhosts.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart httpd
+- name: start and enable httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+# CAKE_ENV_MODEの環境変数を設定
+- name: copy /etc/profile.d/cake_env_mode.sh
+  template:
+    src: cake_env_mode.sh.j2
+    dest: /etc/profile.d/cake_env_mode.sh
+    owner: root
+    group: root
+    mode: 0644

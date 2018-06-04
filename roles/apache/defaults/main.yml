@@ -1,0 +1,11 @@
+---
+# ドキュメントルート
+hostname: 10.0.55.5
+centos6_apache_docroot: /var/www/html
+# ドキュメントルートの所有ユーザ名
+centos6_apache_docroot_user: vagrant
+centos6_apache_docroot_group: vagrant
+# 環境変数CAKE_ENV_MODEの設定値
+centos6_apache_cake_env_mode: development
+# Keepaliveの設定フラグ
+centos6_apache_keepalive_flag: false

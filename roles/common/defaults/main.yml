@@ -1,0 +1,7 @@
+---
+# yum updateを行うかのフラグ
+yum_update_flag: true
+# SELinuxの設定を行うかのフラグ
+selinux_flag: true
+# hwclockの設定を行うかのフラグ
+hwclock_flag: true
