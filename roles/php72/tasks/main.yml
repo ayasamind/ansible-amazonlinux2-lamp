@@ -12,6 +12,11 @@
    - php-pgsql
    - php-mysqlnd
    - php-intl
+   - php-pear
+   - php-devel
+   - gcc
+   - libzip-devel
+   - zlib-devel
 - name: config PHP
   copy: src=php.conf dest=/etc/httpd/conf.d/php.conf
 - name: config PHP
@@ -20,3 +25,5 @@
   service: name=php-fpm state=restarted
   notify:
     - restart httpd
+- name: install zip
+  command: sudo pecl install zip-1.3.13.5
